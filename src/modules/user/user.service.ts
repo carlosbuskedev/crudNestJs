@@ -17,11 +17,10 @@ export class UserService {
   ) {}
 
   public async findByEmail(email: string): Promise<User | null> {
-    const user = await this.userRepository.findOne({
-      where: {
-        email,
-      },
-    });
+    const user = await this.userRepository
+      .createQueryBuilder('user')
+      .where('LOWER(user.email) = LOWER(:email)', { email })
+      .getOne();
 
     if (!user) {
       throw new NotFoundException('User not found');
@@ -31,11 +30,12 @@ export class UserService {
   }
 
   public async createUser(createUserDto: UserDto): Promise<string> {
-    const checkUser = await this.userRepository.findOne({
-      where: {
+    const checkUser = await this.userRepository
+      .createQueryBuilder('user')
+      .where('LOWER(user.email) = LOWER(:email)', {
         email: createUserDto.email,
-      },
-    });
+      })
+      .getOne();
 
     if (!checkUser) {
       const hashPassword = await bcrypt.hash(

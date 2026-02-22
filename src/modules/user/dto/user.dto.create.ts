@@ -6,7 +6,9 @@ export class UserDto {
   @ApiProperty({ example: 'test@gmail.com' })
   @IsEmail()
   @IsNotEmpty()
-  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value.trim().toLowerCase() : value,
+  )
   email: string;
 
   @ApiProperty({ example: '102030' })

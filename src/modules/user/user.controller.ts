@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   HttpCode,
+  HttpStatus,
   Param,
   ParseIntPipe,
   Patch,
@@ -27,9 +28,11 @@ import { UserService } from 'src/modules/user/user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @HttpCode(HttpStatus.CREATED)
   @Post()
-  create(@Body() createUserDto: UserDto) {
-    return this.userService.createUser(createUserDto);
+  async create(@Body() createUserDto: UserDto): Promise<{ email: string }> {
+    const email = await this.userService.createUser(createUserDto);
+    return { email };
   }
 
   @ApiOkResponse({ description: 'user list' })
