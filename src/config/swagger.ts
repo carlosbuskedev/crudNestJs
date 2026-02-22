@@ -13,6 +13,6 @@ export const configSwegger = new DocumentBuilder()
       name: 'Authorization',
       in: 'header',
     },
-    'access-token', // nome do "security scheme"
+    'access-token', 
   )
   .build();

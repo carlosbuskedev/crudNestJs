@@ -55,8 +55,32 @@ export class UserService {
     }
   }
 
+  public async deleteUser(userDTO: UserDto):Promise<void>{
+    const findUser = await this.userRepository.findOne({
+      where: {
+        email: userDTO.email,
+      },
+    });
+    if(!findUser){
+      throw new NotFoundException('User not found');
+    }
+    this.userRepository.remove(findUser); 
+  }
+
   public async getAllUsers(): Promise<User[]> {
     return this.userRepository.find();
+  }
+
+  public async getUserById(userDTO: UserDto): Promise<string | null> {
+    const findUser = await this.userRepository.findOne({
+      where: {
+        email: userDTO.email,
+      },
+    });
+    if(!findUser){
+      throw new NotFoundException('User not found');
+    }
+    return findUser.email;
   }
 
   public getPepper(): string {
