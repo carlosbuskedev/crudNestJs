@@ -1,11 +1,12 @@
-import { DocumentBuilder} from '@nestjs/swagger';
+import { DocumentBuilder } from '@nestjs/swagger';
 
-export const configSwegger = new DocumentBuilder()
-  .setTitle('User example')
-    .setDescription('API description')
-    .setVersion('1.0')
-    .addTag('users')
-    .addBearerAuth(
+export const configSwagger = new DocumentBuilder()
+  .setTitle('API NestJS - Auth & Users')
+  .setDescription('API RESTful para gerenciamento de usuários e autenticação JWT')
+  .setVersion('1.0')
+  .addTag('auth')
+  .addTag('users')
+  .addBearerAuth(
     {
       type: 'http',
       scheme: 'bearer',
@@ -13,6 +14,6 @@ export const configSwegger = new DocumentBuilder()
       name: 'Authorization',
       in: 'header',
     },
-    'access-token', 
+    'access-token',
   )
   .build();
