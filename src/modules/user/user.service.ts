@@ -54,11 +54,33 @@ export class UserService {
       throw new ConflictException('User already exists');
     }
   }
-
-  public async deleteUser(userDTO: UserDto):Promise<void>{
+  
+  public async changeUser(id: number, userDto: UserDto): Promise<User>{
     const findUser = await this.userRepository.findOne({
       where: {
-        email: userDTO.email,
+        id:id 
+      },
+    });
+    if(!findUser){
+      throw new NotFoundException('User not found');
+    
+    }
+    if(userDto.email !== undefined){
+      findUser.email = userDto.email;
+    }
+    if(userDto.password !== undefined){
+      findUser.password = await bcrypt.hash(
+        userDto.password + this.getPepper(),
+        this.getRounds(),
+      );
+    }
+    return await this.userRepository.save(findUser);
+  }
+
+  public async deleteUser(id: number):Promise<void>{
+    const findUser = await this.userRepository.findOne({
+      where: {
+        id:id 
       },
     });
     if(!findUser){
@@ -71,10 +93,10 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  public async getUserById(userDTO: UserDto): Promise<string | null> {
+  public async getUserById(id: number): Promise<string | null> {
     const findUser = await this.userRepository.findOne({
       where: {
-        email: userDTO.email,
+        id: id,
       },
     });
     if(!findUser){
