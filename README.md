@@ -11,6 +11,7 @@ API RESTful desenvolvida com NestJS para gerenciamento de usuários e autentica�
 - **[JWT](https://jwt.io/)** - Autenticação baseada em tokens
 - **[Passport](http://www.passportjs.org/)** - Middleware de autenticação
 - **[Bcrypt](https://www.npmjs.com/package/bcrypt)** - Hash de senhas
+- **[Swagger / OpenAPI](https://docs.nestjs.com/openapi/introduction)** - Documentação interativa da API
 - **[Docker](https://www.docker.com/)** - Containerização do banco de dados
 - **[ESLint](https://eslint.org/)** + **[Prettier](https://prettier.io/)** - Linting e formatação de código
 
@@ -83,12 +84,25 @@ npm run start:prod
 npm run start:debug
 ```
 
+## 📖 Documentação da API (Swagger)
+
+Com a aplicação em execução, a documentação interativa Swagger/OpenAPI fica disponível em:
+
+**http://localhost:3000/api**
+
+Nela você pode:
+- Ver todos os endpoints, parâmetros e respostas
+- Testar as requisições diretamente no navegador
+- Autenticar com JWT (botão **Authorize** → informar o token retornado no login)
+
 ## 📁 Estrutura do Projeto
 
 ```
 src/
 ├── main.ts                 # Ponto de entrada da aplicação
 ├── app.module.ts           # Módulo raiz
+├── config/
+│   └── swagger.ts          # Configuração Swagger/OpenAPI
 ├── models/
 │   └── user.entity.ts      # Entidade User
 └── modules/
@@ -133,15 +147,14 @@ Realiza login e retorna token JWT.
 }
 ```
 
-#### `GET /auth`
-Endpoint protegido que requer autenticação JWT.
+### Usuários
+
+Todos os endpoints abaixo (exceto `POST /users`) requerem autenticação:
 
 **Headers:**
 ```
 Authorization: Bearer <token>
 ```
-
-### Usuários
 
 #### `POST /users`
 Cria um novo usuário.
@@ -160,12 +173,7 @@ Cria um novo usuário.
 ```
 
 #### `GET /users`
-Lista todos os usuários (requer autenticação).
-
-**Headers:**
-```
-Authorization: Bearer <token>
-```
+Lista todos os usuários.
 
 **Response:**
 ```json
@@ -176,6 +184,28 @@ Authorization: Bearer <token>
   }
 ]
 ```
+
+#### `GET /users/:id`
+Retorna o email do usuário pelo ID.
+
+**Response:**
+```
+"user@example.com"
+```
+
+#### `PATCH /users/:id`
+Atualiza um usuário (email e/ou senha). Envie apenas os campos que deseja alterar.
+
+**Request:**
+```json
+{
+  "email": "novo@example.com",
+  "password": "novaSenha123"
+}
+```
+
+#### `DELETE /users/:id`
+Remove um usuário. Retorna status **204 No Content**.
 
 ## 🧪 Testes
 
@@ -246,6 +276,7 @@ docker-compose logs -f
 ## 📚 Documentação Adicional
 
 - [Documentação NestJS](https://docs.nestjs.com/)
+- [NestJS OpenAPI (Swagger)](https://docs.nestjs.com/openapi/introduction)
 - [TypeORM Documentation](https://typeorm.io/)
 - [Conventional Commits](https://www.conventionalcommits.org/)
 

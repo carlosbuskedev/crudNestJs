@@ -57,18 +57,15 @@ export class UserService {
   
   public async changeUser(id: number, userDto: UserDto): Promise<User>{
     const findUser = await this.userRepository.findOne({
-      where: {
-        id:id 
-      },
+      where: { id },
     });
-    if(!findUser){
+    if (!findUser) {
       throw new NotFoundException('User not found');
-    
     }
-    if(userDto.email !== undefined){
+    if (userDto.email !== undefined) {
       findUser.email = userDto.email;
     }
-    if(userDto.password !== undefined){
+    if (userDto.password !== undefined) {
       findUser.password = await bcrypt.hash(
         userDto.password + this.getPepper(),
         this.getRounds(),
@@ -77,16 +74,14 @@ export class UserService {
     return await this.userRepository.save(findUser);
   }
 
-  public async deleteUser(id: number):Promise<void>{
+  public async deleteUser(id: number): Promise<void> {
     const findUser = await this.userRepository.findOne({
-      where: {
-        id:id 
-      },
+      where: { id },
     });
-    if(!findUser){
+    if (!findUser) {
       throw new NotFoundException('User not found');
     }
-    this.userRepository.remove(findUser); 
+    await this.userRepository.remove(findUser); 
   }
 
   public async getAllUsers(): Promise<User[]> {
@@ -95,11 +90,9 @@ export class UserService {
 
   public async getUserById(id: number): Promise<string | null> {
     const findUser = await this.userRepository.findOne({
-      where: {
-        id: id,
-      },
+      where: { id },
     });
-    if(!findUser){
+    if (!findUser) {
       throw new NotFoundException('User not found');
     }
     return findUser.email;
