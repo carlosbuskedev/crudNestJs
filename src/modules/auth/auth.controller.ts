@@ -1,4 +1,12 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from 'src/modules/auth/auth.service';
 import { UserSiginDto } from 'src/modules/auth/dto/login.dto';
 import { JwtAuthGuard } from 'src/modules/auth/jwt-auth.guard';

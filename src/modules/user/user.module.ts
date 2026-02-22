@@ -11,4 +11,3 @@ import { UserController } from 'src/modules/user/user.controller';
   controllers: [UserController],
 })
 export class UsersModule {}
-
