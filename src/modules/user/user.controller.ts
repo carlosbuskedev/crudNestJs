@@ -1,7 +1,15 @@
-import { Body, Controller, Delete, Get, Post, UseGuards, Param, HttpCode, Patch, ParseIntPipe } from '@nestjs/common';
-import { UserDto } from 'src/modules/user/dto/user.dto.create';
-import { UserService } from 'src/modules/user/user.service';
-import { JwtAuthGuard } from 'src/modules/auth/jwt-auth.guard';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiNoContentResponse,
@@ -10,6 +18,9 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/modules/auth/jwt-auth.guard';
+import { UserDto } from 'src/modules/user/dto/user.dto.create';
+import { UserService } from 'src/modules/user/user.service';
 
 @ApiTags('users')
 @Controller('users')
@@ -35,7 +46,7 @@ export class UserController {
   @ApiBearerAuth('access-token')
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getById(@Param('id', ParseIntPipe) id:number){
+  getById(@Param('id', ParseIntPipe) id: number) {
     return this.userService.getUserById(id);
   }
 
@@ -45,11 +56,10 @@ export class UserController {
   @ApiNoContentResponse({ description: 'User deleted successfully' })
   @HttpCode(204)
   @Delete(':id')
-  delete(@Param('id', ParseIntPipe)id: number):Promise<void>{
+  delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.userService.deleteUser(id);
   }
 
-  
   @ApiOkResponse({ description: 'User updated successfully' })
   @ApiNotFoundResponse({ description: 'User not found' })
   @ApiBearerAuth('access-token')
@@ -57,11 +67,10 @@ export class UserController {
   @ApiParam({ name: 'id', type: Number })
   @Patch(':id')
   async patch(
-    @Param('id', ParseIntPipe)id:number,
-    @Body()userDto:UserDto
-  ):Promise<UserDto>{
-    return this.userService.changeUser(id,userDto);
+    @Param('id', ParseIntPipe) id: number,
+    @Body() userDto: UserDto,
+  ): Promise<UserDto> {
+    return this.userService.changeUser(id, userDto);
   }
-
 }
 

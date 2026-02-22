@@ -54,8 +54,8 @@ export class UserService {
       throw new ConflictException('User already exists');
     }
   }
-  
-  public async changeUser(id: number, userDto: UserDto): Promise<User>{
+
+  public async changeUser(id: number, userDto: UserDto): Promise<UserDto> {
     const findUser = await this.userRepository.findOne({
       where: { id },
     });
@@ -81,7 +81,7 @@ export class UserService {
     if (!findUser) {
       throw new NotFoundException('User not found');
     }
-    await this.userRepository.remove(findUser); 
+    await this.userRepository.remove(findUser);
   }
 
   public async getAllUsers(): Promise<User[]> {
