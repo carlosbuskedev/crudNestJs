@@ -25,7 +25,7 @@ API RESTful desenvolvida com NestJS para gerenciamento de usuários e autentica�
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/SEU_USUARIO/APINestjs.git
+git clone https://github.com/carlosbuskedev/crudNestJs
 cd APINestjs
 ```
 
