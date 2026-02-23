@@ -1,15 +1,24 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Patch } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CustomerService } from 'src/modules/customer/customer.service';
 import { CustomerDto } from 'src/modules/customer/dto/customer.dto.create';
 import { Customer } from 'src/models/customer.entity';
-import { Body, HttpCode, HttpStatus, Post, Get,Query } from '@nestjs/common';
+import {
+  Body,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Get,
+  Query,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { ApiCreatedResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/modules/auth/jwt-auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { CustomerPaginationDto } from 'src/modules/customer/dto/customer.pagination-dto';
-
+import { ParseIntPipe } from '@nestjs/common';
 
 @ApiTags('customers')
 @Controller('customers')
@@ -30,5 +39,30 @@ export class CustomerController {
   @Get()
   getAll(@Query() customerPaginationDto: CustomerPaginationDto) {
     return this.customerService.getAllCustomers(customerPaginationDto);
+  }
+
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  getById(@Query('id', ParseIntPipe) id: number) {
+    return this.customerService.getCustomerById(id);
+  }
+
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(204)
+  @Delete(':id')
+  delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.customerService.deleteCustomer(id);
+  }
+
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard)
+  @Patch(':id')
+  async patch(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() customerDto: CustomerDto,
+  ) {
+    return this.customerService.changeCustomer(id, customerDto);
   }
 }
