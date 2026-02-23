@@ -3,11 +3,13 @@ import { ApiTags } from '@nestjs/swagger';
 import { CustomerService } from 'src/modules/customer/customer.service';
 import { CustomerDto } from 'src/modules/customer/dto/customer.dto.create';
 import { Customer } from 'src/models/customer.entity';
-import { Body, HttpCode, HttpStatus, Post, Get } from '@nestjs/common';
+import { Body, HttpCode, HttpStatus, Post, Get,Query } from '@nestjs/common';
 import { ApiCreatedResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/modules/auth/jwt-auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { CustomerPaginationDto } from 'src/modules/customer/dto/customer.pagination-dto';
+
 
 @ApiTags('customers')
 @Controller('customers')
@@ -26,7 +28,7 @@ export class CustomerController {
   @ApiBearerAuth('access-token')
   @UseGuards(JwtAuthGuard)
   @Get()
-  getAll() {
-    return this.customerService.getAllCustomers();
+  getAll(@Query() customerPaginationDto: CustomerPaginationDto) {
+    return this.customerService.getAllCustomers(customerPaginationDto);
   }
 }

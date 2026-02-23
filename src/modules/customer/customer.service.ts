@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Customer } from 'src/models/customer.entity';
 import { CustomerDto } from 'src/modules/customer/dto/customer.dto.create';
 import { ConflictException } from '@nestjs/common';
+import { CustomerPaginationDto } from 'src/modules/customer/dto/customer.pagination-dto';
 
 @Injectable()
 export class CustomerService {
@@ -31,7 +32,12 @@ export class CustomerService {
     return await this.customerRepository.save(createCustomer);
   }
 
-  async getAllCustomers(): Promise<Customer[]> {
-    return this.customerRepository.find();
+  async getAllCustomers(customerPaginationDto: CustomerPaginationDto): Promise<Customer[]> {
+    const defaultPageSize = 5;
+
+    return this.customerRepository.find({
+      skip:customerPaginationDto.skip ?? 0,
+      take:customerPaginationDto.limit ?? defaultPageSize,
+    });
   }
 }
