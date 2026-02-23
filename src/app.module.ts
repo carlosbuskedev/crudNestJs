@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from 'src/modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { join } from 'path';
+import { CustomerModule } from 'src/modules/customer/customer.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { join } from 'path';
       synchronize: true,
     }),
     UsersModule,
+    CustomerModule,
     AuthModule,
   ],
 })

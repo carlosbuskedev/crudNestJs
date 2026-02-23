@@ -9,7 +9,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
   app.enableCors({ origin: ['http://localhost:5173'], credentials: true });
-  const documentFactory = () => SwaggerModule.createDocument(app, configSwagger);
+  const documentFactory = () =>
+    SwaggerModule.createDocument(app, configSwagger);
   SwaggerModule.setup('api', app, documentFactory);
 
   app.useGlobalPipes(

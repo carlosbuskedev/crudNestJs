@@ -6,7 +6,8 @@ import type { Request } from 'express';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 
 function extractFromCookieOrHeader(req: Request): string | null {
-  const cookies = (req as Request & { cookies?: Record<string, string> }).cookies;
+  const cookies = (req as Request & { cookies?: Record<string, string> })
+    .cookies;
   const token = cookies?.['access_token'];
   if (token) return token;
   const auth = req?.headers?.authorization;

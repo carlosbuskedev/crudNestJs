@@ -1,6 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Customer } from './customer.entity';
-
 
 @Entity()
 export class CustomerRat {
@@ -19,8 +26,9 @@ export class CustomerRat {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToOne(() => Customer, (customer) => customer.customer_rat, {nullable: false})
+  @ManyToOne(() => Customer, (customer) => customer.customer_rat, {
+    nullable: false,
+  })
   @JoinColumn({ name: 'customer_id' })
   customer: Customer;
-
 }

@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn} from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { CustomerRat } from './customer-rat.entity';
 
 @Entity()
@@ -9,7 +16,7 @@ export class Customer {
   @Column({ unique: true })
   email: string;
 
-  @Column()
+  @Column({ unique: true })
   cnpj: string;
 
   @Column()

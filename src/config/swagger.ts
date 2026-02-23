@@ -2,7 +2,9 @@ import { DocumentBuilder } from '@nestjs/swagger';
 
 export const configSwagger = new DocumentBuilder()
   .setTitle('API NestJS - Auth & Users')
-  .setDescription('API RESTful para gerenciamento de usuários e autenticação JWT')
+  .setDescription(
+    'API RESTful para gerenciamento de usuários e autenticação JWT',
+  )
   .setVersion('1.0')
   .addTag('auth')
   .addTag('users')
