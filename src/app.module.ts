@@ -5,6 +5,7 @@ import { UsersModule } from 'src/modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { join } from 'path';
 import { CustomerModule } from 'src/modules/customer/customer.module';
+import { RatModule } from 'src/modules/rat/rat.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { CustomerModule } from 'src/modules/customer/customer.module';
     }),
     UsersModule,
     CustomerModule,
+    RatModule,
     AuthModule,
   ],
 })

@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Customer } from './customer.entity';
+import { User } from './user.entity';
 
 @Entity()
 export class CustomerRat {
@@ -17,7 +18,7 @@ export class CustomerRat {
   @Column()
   description: string;
 
-  @Column()
+  @Column('decimal', { precision: 10, scale: 2 })
   price: number;
 
   @CreateDateColumn()
@@ -31,4 +32,8 @@ export class CustomerRat {
   })
   @JoinColumn({ name: 'customer_id' })
   customer: Customer;
+
+  @ManyToOne(() => User, { nullable: false })
+  @JoinColumn({ name: 'created_by_user_id' })
+  createdBy: User;
 }

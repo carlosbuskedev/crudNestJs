@@ -2,10 +2,11 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  OneToMany,
+  OneToOne,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { User } from 'src/models/user.entity';
 
 @Entity()
 export class UserProfile {
@@ -20,4 +21,13 @@ export class UserProfile {
 
   @Column()
   cpf_cnpj: string;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @OneToOne(() => User, (user) => user.user_profile, { onDelete: 'CASCADE' })
+  user: User;
 }
